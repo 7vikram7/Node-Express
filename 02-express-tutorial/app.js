@@ -1,20 +1,28 @@
 const app = require('express')()
+const express = require('express')
+const logger = require("./logger")
+const authorize = require("./authorize")
+const morgan = require('morgan')
 
-const logger = (req, res, next) => {
-    const method = req.method;
-    const url = req.url
-    const time = new Date().getFullYear()
-    console.log(method, url, time)
-    next()
-}
+// app.use(authorize,logger)
+app.use(morgan('tiny'))
+// app.use(express.static('./public'))
 
-app.get('/', logger, (req, res) => {
+app.get('/', (req, res) => {
 
     res.send('Home')
 })
 
-app.get('/about', logger, (req, res) => {
+app.get('/about', (req, res) => {
     res.send('About')
+})
+
+app.get('/api/products', (req, res) => {
+    res.send('Products')
+})
+
+app.get('/api/items', (req, res) => {
+    res.send('Items')
 })
 
 app.listen(5000, () => {
