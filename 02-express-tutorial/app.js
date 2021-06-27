@@ -3,7 +3,9 @@ const express = require('express')
 var bodyParser = require('body-parser');
 
 const people = require('./final/routes/people');
-const e = require('express');
+
+const auth = require('./final/routes/auth');
+
 
 // static assets
 app.use(express.static('./methods-public'))
@@ -16,15 +18,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use('/api/people',people)
+app.use('/api/people', people)
+app.use('/login', auth)
 
-app.post('/login', (req, res) => {
-    const {name} = req.body
-    if (name) {
-        return res.status(200).send(`Welcome ${name}`)
-    }
-    res.status(401).send('Please Provide Credentials')
-})
 
 app.listen(5000, () => {
     console.log('Server is listening on port 5000')
